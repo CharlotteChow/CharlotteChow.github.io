@@ -1,0 +1,53 @@
+#### since i still could not figure out how to use jekyll to build a blog(awkwark *-*), so I will just commit my codes in github.
+#### 2017-07-16 22:01:50
+tag: data structure
+tools: C
+--------------------------------------
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int i = 0;
+    char ex[100] = {'1','2','3','4'};
+    push_q(ex);
+    for(i = 0; i < strlen(ex); i++){
+        printf("%c",ex[i]);
+    }
+
+    return 0;
+}
+
+    void pop(char param[],int t){
+        int i;
+        char insert = (char)( t+'0');
+        for(i = 0; i < 100; i++){
+            if(i == strlen(param)){
+                param[i] = insert;
+                break;
+            }
+        }
+    }
+    //
+    void push_s(char param[]){
+        int i;
+        for(i = 0; i < 100; i++){
+            if(i == strlen(param)){
+                param[i] = '\0';
+                break;
+            }
+        }
+    }
+    //
+    void push_q(char param[]){
+        int i;
+        for(i = 0; i < 100; i++){
+            param[i] = param[i+1];
+            if(i == strlen(param)){
+                break;
+            }
+        }
+    }
+
