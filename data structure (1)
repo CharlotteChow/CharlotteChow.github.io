@@ -1,9 +1,9 @@
-#### since i still could not figure out how to use jekyll to build a blog(awkwark *-*), so I will just commit my codes in github.
+
 #### 2017-07-16 22:01:50
 tag: data structure
 tools: C
---------------------------------------
-
+describe: use array to realise the function of stack-queue-push()-pop()
+-----------------------------------------------------------------------
 
 #include <stdio.h>
 #include <stdlib.h>
