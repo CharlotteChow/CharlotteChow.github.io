@@ -1,0 +1,163 @@
+---
+layout: post
+title:  "Big Data(1)"
+date:   2017-07-17 23:31:01 +0800
+categories: informal essay
+tag: preparations
+---
+
+
+#### 2017-07-16 22:01:50
+tag: big data
+tools: python
+describe: use crawler to catch html document from the Internet, and here's a demo can be used everything
+
+-----------------------------------------------------------------------
+
+import urllib.request
+
+
+def getHtml(url):
+    html = urllib.request.urlopen(url).read()
+    return html
+
+
+def saveHtml(file_name, file_content):
+    with open(file_name.replace('/', '_') + ".html", "ab") as f:
+        f.write(file_content)
+        f.write(b'=========================================================================================================================')
+
+
+rurl = "http://npaac.scau.edu.cn/index.html"
+html = getHtml(rurl)
+print(html)
+saveHtml("target", html)
+print("successful")
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+import sys
+import urllib.request
+from bs4 import BeautifulSoup
+
+
+def get_url(html):
+    soup = BeautifulSoup(html, 'lxml')
+    urls = soup.prettify()
+    urls = soup.select('a[href^="/a/"]')
+    flag = 0
+    for url in urls:
+        flag = 0
+        if isinstance(url.get('href'), str):
+            url = ('http://npaac.scau.edu.cn' + url.get('href'))  # ---> 返回的地址是 str 类型
+            for item in query:
+                if item == url:
+                    flag = 1
+                    break
+            if flag == 1:
+                continue
+            query.append(url)
+            get_html(url)
+
+
+def get_html(root_url):
+    try:
+        html = urllib.request.urlopen(root_url).read()
+    except:
+        return
+    get_url(html)
+
+
+def save_html(file_name, file_content):
+    with open(file_name.replace('/', '_') + ".html", "ab") as f:
+        try:
+            f.write(file_content)
+        except:
+            return
+
+
+/# ---> preparation
+query = []
+index = 0
+root_url = "http://npaac.scau.edu.cn/index.html"
+headers = {
+        'Connection': 'Keep-Alive',
+        'Accept': 'text/html, application/xhtml+xml, */*',
+        'Accept-Language': 'en-US,en;q=0.8,zh-Hans-CN;q=0.5,zh-Hans;q=0.3',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko',
+        'Refer': root_url
+        }
+sys.setrecursionlimit(10000)
+get_html(root_url)
+print(query)
+for item in query:
+    html =urllib.request.urlopen(item).read()
+    save_html(str(index), html)
+    index = index + 1
+
+print("successful")
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+import os
+from urllib import request
+from bs4 import BeautifulSoup
+
+
+def saveText(file_name, file_content, root_url):
+    # print(isinstance(file_content, str)) str
+    #if os.path.isfile('index.txt'):
+    f = open(file_name + ".txt", 'a', encoding='utf-8')
+    f.write(root_url)
+    f.write(file_content.replace('\n\n', '') + '\n')
+    f.write("----------------------------------------------------------------------------------------------------------------------")
+    f.close()
+
+prefix = "file:///D:/crawler/sew_end/"
+for i in range(1, 400):
+    url = str(i) + '.html'
+    if not os.path.exists(url):
+        break
+    else:
+        url = prefix + url
+    resp = request.urlopen(url)
+    html_doc = resp.read()
+    soup = BeautifulSoup(html_doc, 'lxml')
+    urls = soup.prettify()
+    text = soup.find(id="main").get_text()
+    saveText("sum", text, url)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+import os
+from urllib import request
+from bs4 import BeautifulSoup
+
+url = "file:///D:/crawler/sew_end/target.html"
+prefix = "file:///D:/crawler/sew/"
+for i in range(1,25):
+    url = str(i) + '.html'
+    if not os.path.exists(url):
+        break
+    else:
+        url = prefix + url
+
+
+def change(a):
+    a = 5
+    return a
+
+
+a = 10
+a = change(a)
+print(a)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[jekyll]:      http://jekyllrb.com
+[jekyll-gh]:   https://github.com/jekyll/jekyll
+[jekyll-help]: https://github.com/jekyll/jekyll-help
